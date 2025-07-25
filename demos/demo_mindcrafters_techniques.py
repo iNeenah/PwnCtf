@@ -7,6 +7,9 @@ Muestra cómo nuestro sistema puede resolver desafíos reales de CTF
 import os
 import sys
 import time
+import sys
+import os
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src'))
 from advanced_pwn_solver import AdvancedPWNSolver
 
 def create_mindcrafters_demo_challenges():

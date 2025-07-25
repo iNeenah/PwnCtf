@@ -7,6 +7,9 @@ Muestra todas las funcionalidades integradas
 import os
 import sys
 import time
+import sys
+import os
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src'))
 from pwn_ai_analyzer import PWNAIAnalyzer
 
 def create_demo_challenges():

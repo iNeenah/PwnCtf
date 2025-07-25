@@ -35,49 +35,47 @@ git clone https://github.com/iNeenah/PwnCtf.git
 cd PwnCtf
 
 # Install dependencies
-python install_pwn_ai.py
+python pwn_ai.py install
+# or
+python scripts/install_pwn_ai.py
 ```
 
 ### Basic Usage
 ```bash
-# Analyze a single binary
-python pwn_ai_analyzer.py ./challenge_binary
+# Unified command-line interface
+python pwn_ai.py analyze ./challenges/
+python pwn_ai.py solve ./binary --ai-key your_key
+python pwn_ai.py web
+python pwn_ai.py demo
 
-# Analyze entire directory
-python pwn_ai_analyzer.py ./ctf_challenges/
-
-# Use with AI analysis
-python pwn_ai_analyzer.py ./challenge your_gemini_api_key
-
-# Start web interface
-python web_pwn_analyzer.py
+# Direct module usage
+python src/pwn_ai_analyzer.py ./challenges/
+python src/advanced_pwn_solver.py ./binary
+python src/web_pwn_analyzer.py
 ```
 
 ---
 
 ## System Architecture
 
-### Core Components
+### Project Structure
 
-**pwn_ai_analyzer.py**
-- Main analysis engine with AI integration
-- Automatic file type detection and processing
-- Flag extraction and vulnerability identification
-
-**advanced_pwn_solver.py** 
-- MindCrafters techniques implementation
-- Advanced exploitation methods
-- Challenge type classification
-
-**v8_exploit_tool.py**
-- Browser exploitation toolkit
-- V8 engine specific primitives
-- JavaScript heap manipulation
-
-**web_pwn_analyzer.py**
-- Modern web interface
-- AI chat integration
-- Interactive analysis results
+```
+PwnCtf/
+├── pwn_ai.py                    # Main entry point
+├── src/                         # Core source code
+│   ├── pwn_ai_analyzer.py       # Main analysis engine
+│   ├── advanced_pwn_solver.py   # MindCrafters techniques
+│   ├── v8_exploit_tool.py       # Browser exploitation
+│   ├── web_pwn_analyzer.py      # Web interface
+│   └── pwn_ctf_tool.py          # Basic PWN tools
+├── scripts/                     # Utility scripts
+│   └── install_pwn_ai.py        # Installation script
+├── demos/                       # Demonstration scripts
+├── examples/                    # Usage examples
+├── docs/                        # Documentation
+└── legacy/                      # Legacy files
+```
 
 ---
 

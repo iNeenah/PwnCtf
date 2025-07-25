@@ -37,7 +37,8 @@ setup(
         "Source": "https://github.com/iNeenah/PwnCtf",
         "Documentation": "https://github.com/iNeenah/PwnCtf/tree/main/docs",
     },
-    packages=find_packages(exclude=["tests*", "docs*"]),
+    packages=find_packages(where="src"),
+    package_dir={"": "src"},
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Intended Audience :: Information Technology",
@@ -84,9 +85,10 @@ setup(
     },
     entry_points={
         "console_scripts": [
-            "pwn-ai-analyzer=pwn_ai_analyzer:main",
-            "pwn-solver=advanced_pwn_solver:main",
-            "pwn-web=web_pwn_analyzer:main",
+            "pwn-ai=pwn_ai:main",
+            "pwn-ai-analyzer=src.pwn_ai_analyzer:main",
+            "pwn-solver=src.advanced_pwn_solver:main",
+            "pwn-web=src.web_pwn_analyzer:main",
         ],
     },
     include_package_data=True,

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Demostración simplificada del PWN AI Analyzer
-Funciona sin dependencias externas complejas
+Simple PWN AI Analyzer Demonstration
+Works without complex external dependencies
 """
 
 import os
@@ -9,8 +9,8 @@ import sys
 import time
 
 def create_demo_challenges():
-    """Crear desafíos de demostración"""
-    print("🎯 Creando desafíos de demostración...")
+    """Create demonstration challenges"""
+    print("Creating demonstration challenges...")
     
     # Crear directorio de demo
     demo_dir = "./demo_challenges"
