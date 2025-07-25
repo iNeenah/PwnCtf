@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  pwn-ai-analyzer:
+    build: .
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./challenges:/app/challenges
+      - ./analysis_workspace:/app/analysis_workspace
+      - ./exploits:/app/exploits
+    environment:
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - PWN_DEBUG=${PWN_DEBUG:-0}
+      - PWN_TIMEOUT=${PWN_TIMEOUT:-30}
+      - FLASK_ENV=${FLASK_ENV:-production}
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  redis_data:
