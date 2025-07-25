@@ -6,75 +6,93 @@ A comprehensive system that combines traditional PWN techniques with artificial 
 
 ---
 
-## Features
+## ✨ Features
 
-### Core Capabilities
-- **Automatic Analysis** - Detects file types, extracts archives, analyzes binaries
-- **AI Integration** - Uses Gemini AI for contextual analysis and exploit generation  
-- **Smart Detection** - Automatically identifies challenge types and vulnerabilities
-- **Exploit Generation** - Creates specific exploits based on detected techniques
-- **Web Interface** - Modern web UI with AI chat functionality
+### 🤖 AI-Powered Analysis
+- **Gemini AI Integration** - Contextual understanding and exploit generation
+- **Smart Challenge Detection** - Automatically identifies CTF challenge types
+- **Intelligent Exploit Creation** - AI-guided payload generation
+- **Interactive Chat Interface** - Ask AI about analysis results
 
-### Advanced Techniques
-- **UTF-8 Byte Bypass** - Exploits character vs byte differences in Python
-- **Multi-Stage Exploitation** - Complex sequential exploitation chains
-- **Format String Attacks** - Advanced format string vulnerabilities
-- **Heap Feng Shui** - Controlled heap layout manipulation
-- **Race Conditions** - Precise timing attacks with threading
-- **ROP Chain Construction** - Automated return-oriented programming
-- **Browser Exploitation** - V8 engine specific attacks
+### 🏆 MindCrafters Techniques
+- **UTF-8 Byte Bypass** - Character vs byte exploitation (Safe Gets)
+- **Multi-Stage Format String** - Complex sequential chains (The Goose)
+- **Heap Feng Shui** - Controlled memory layout manipulation
+- **Advanced Race Conditions** - Precise timing attacks
+- **Custom Shellcode Generation** - Optimized payload creation
+
+### 🔧 Core Capabilities
+- **Universal File Analysis** - Binaries, source code, web files, archives
+- **Automatic Flag Detection** - Advanced pattern matching
+- **Vulnerability Scanning** - Buffer overflows, format strings, heap bugs
+- **Modern Web Interface** - Drag-and-drop analysis with real-time results
+- **Comprehensive Reporting** - Detailed analysis with actionable insights
 
 ---
 
 ## Quick Start
 
-### Installation
+### 🚀 One-Command Setup
 ```bash
-# Clone the repository
-git clone https://github.com/iNeenah/PwnCtf.git
-cd PwnCtf
-
-# Install dependencies
-python pwn_ai.py install
-# or
-python scripts/install_pwn_ai.py
+git clone https://github.com/iNeenah/PwnCtf.git && cd PwnCtf && python pwn_ai.py install
 ```
 
-### Basic Usage
+### 🎯 Basic Usage
 ```bash
-# Unified command-line interface
+# Analyze CTF challenges
 python pwn_ai.py analyze ./challenges/
-python pwn_ai.py solve ./binary --ai-key your_key
-python pwn_ai.py web
-python pwn_ai.py demo
 
-# Direct module usage
+# Advanced solver with MindCrafters techniques  
+python pwn_ai.py solve ./binary --ai-key your_gemini_key
+
+# Modern web interface
+python pwn_ai.py web
+
+# Interactive demonstrations
+python pwn_ai.py demo
+```
+
+### 🔧 Advanced Usage
+```bash
+# Direct module access
 python src/pwn_ai_analyzer.py ./challenges/
 python src/advanced_pwn_solver.py ./binary
 python src/web_pwn_analyzer.py
+
+# Specific demonstrations
+python demos/demo_mindcrafters_simple.py
+python examples/examples.py
 ```
 
 ---
 
-## System Architecture
-
-### Project Structure
+## Project Structure
 
 ```
 PwnCtf/
-├── pwn_ai.py                    # Main entry point
-├── src/                         # Core source code
-│   ├── pwn_ai_analyzer.py       # Main analysis engine
+├── 📄 pwn_ai.py                 # Unified command-line interface
+├── 📁 src/                      # Core source code
+│   ├── pwn_ai_analyzer.py       # Main analysis engine with AI
 │   ├── advanced_pwn_solver.py   # MindCrafters techniques
-│   ├── v8_exploit_tool.py       # Browser exploitation
-│   ├── web_pwn_analyzer.py      # Web interface
-│   └── pwn_ctf_tool.py          # Basic PWN tools
-├── scripts/                     # Utility scripts
-│   └── install_pwn_ai.py        # Installation script
-├── demos/                       # Demonstration scripts
-├── examples/                    # Usage examples
-├── docs/                        # Documentation
-└── legacy/                      # Legacy files
+│   ├── v8_exploit_tool.py       # Browser exploitation toolkit
+│   ├── web_pwn_analyzer.py      # Modern web interface
+│   ├── pwn_ctf_tool.py          # Basic PWN utilities
+│   └── utils.py                 # Shared utilities
+├── 📁 scripts/                  # Installation and setup
+│   └── install_pwn_ai.py        # Automatic installer
+├── 📁 demos/                    # Interactive demonstrations
+│   ├── demo_simple_pwn_ai.py    # Basic demo (no dependencies)
+│   ├── demo_mindcrafters_simple.py # MindCrafters techniques
+│   └── demo_complete_pwn_ai.py  # Full system demo
+├── 📁 examples/                 # Practical examples
+│   ├── examples.py              # Basic usage examples
+│   ├── v8_examples.py           # Browser exploitation
+│   └── *.js                     # Real CTF exploits
+├── 📁 docs/                     # Comprehensive documentation
+│   ├── INSTALLATION.md          # Setup guide
+│   ├── API.md                   # API reference
+│   └── TECHNIQUES.md            # MindCrafters techniques
+└── 📁 legacy/                   # Previous versions and archives
 ```
 
 ---
