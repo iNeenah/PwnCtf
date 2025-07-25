@@ -1,29 +1,29 @@
 # PWN AI Analyzer
 
-**Advanced Automated CTF Challenge Analysis System with AI Integration**
+**Advanced Automated CTF Challenge Analysis System**
 
-A comprehensive system that combines traditional PWN techniques with artificial intelligence to automatically analyze, detect, and exploit CTF challenges. Features techniques extracted from real writeups by top CTF teams like MindCrafters.
+A comprehensive system that combines traditional PWN techniques with artificial intelligence to automatically analyze, detect, and exploit CTF challenges. The system incorporates proven techniques from competitive CTF teams and provides both command-line and web interfaces for efficient challenge analysis.
 
 ---
 
-## ✨ Features
+## Features
 
-### 🤖 AI-Powered Analysis
+### AI-Powered Analysis
 - **Gemini AI Integration** - Contextual understanding and exploit generation
 - **Smart Challenge Detection** - Automatically identifies CTF challenge types
 - **Intelligent Exploit Creation** - AI-guided payload generation
-- **Interactive Chat Interface** - Ask AI about analysis results
+- **Interactive Chat Interface** - Query AI about analysis results
 
-### 🏆 MindCrafters Techniques
-- **UTF-8 Byte Bypass** - Character vs byte exploitation (Safe Gets)
-- **Multi-Stage Format String** - Complex sequential chains (The Goose)
+### Advanced Techniques
+- **UTF-8 Byte Bypass** - Character vs byte exploitation techniques
+- **Multi-Stage Format String** - Complex sequential exploitation chains
 - **Heap Feng Shui** - Controlled memory layout manipulation
 - **Advanced Race Conditions** - Precise timing attacks
 - **Custom Shellcode Generation** - Optimized payload creation
 
-### 🔧 Core Capabilities
+### Core Capabilities
 - **Universal File Analysis** - Binaries, source code, web files, archives
-- **Automatic Flag Detection** - Advanced pattern matching
+- **Automatic Flag Detection** - Advanced pattern matching algorithms
 - **Vulnerability Scanning** - Buffer overflows, format strings, heap bugs
 - **Modern Web Interface** - Drag-and-drop analysis with real-time results
 - **Comprehensive Reporting** - Detailed analysis with actionable insights
@@ -32,35 +32,37 @@ A comprehensive system that combines traditional PWN techniques with artificial 
 
 ## Quick Start
 
-### 🚀 One-Command Setup
+### Installation
 ```bash
-git clone https://github.com/iNeenah/PwnCtf.git && cd PwnCtf && python pwn_ai.py install
+git clone https://github.com/iNeenah/PwnCtf.git
+cd PwnCtf
+python pwn_ai.py install
 ```
 
-### 🎯 Basic Usage
+### Basic Usage
 ```bash
 # Analyze CTF challenges
 python pwn_ai.py analyze ./challenges/
 
-# Advanced solver with MindCrafters techniques  
+# Advanced solver with AI techniques  
 python pwn_ai.py solve ./binary --ai-key your_gemini_key
 
-# Modern web interface
+# Web interface
 python pwn_ai.py web
 
 # Interactive demonstrations
 python pwn_ai.py demo
 ```
 
-### 🔧 Advanced Usage
+### Advanced Usage
 ```bash
 # Direct module access
 python src/pwn_ai_analyzer.py ./challenges/
 python src/advanced_pwn_solver.py ./binary
 python src/web_pwn_analyzer.py
 
-# Specific demonstrations
-python demos/demo_mindcrafters_simple.py
+# Run specific demonstrations
+python demos/demo_simple_pwn_ai.py
 python examples/examples.py
 ```
 
@@ -70,29 +72,28 @@ python examples/examples.py
 
 ```
 PwnCtf/
-├── 📄 pwn_ai.py                 # Unified command-line interface
-├── 📁 src/                      # Core source code
+├── pwn_ai.py                    # Unified command-line interface
+├── src/                         # Core source code
 │   ├── pwn_ai_analyzer.py       # Main analysis engine with AI
-│   ├── advanced_pwn_solver.py   # MindCrafters techniques
+│   ├── advanced_pwn_solver.py   # Advanced exploitation techniques
 │   ├── v8_exploit_tool.py       # Browser exploitation toolkit
-│   ├── web_pwn_analyzer.py      # Modern web interface
+│   ├── web_pwn_analyzer.py      # Web interface
 │   ├── pwn_ctf_tool.py          # Basic PWN utilities
 │   └── utils.py                 # Shared utilities
-├── 📁 scripts/                  # Installation and setup
+├── scripts/                     # Installation and setup
 │   └── install_pwn_ai.py        # Automatic installer
-├── 📁 demos/                    # Interactive demonstrations
+├── demos/                       # Interactive demonstrations
 │   ├── demo_simple_pwn_ai.py    # Basic demo (no dependencies)
-│   ├── demo_mindcrafters_simple.py # MindCrafters techniques
 │   └── demo_complete_pwn_ai.py  # Full system demo
-├── 📁 examples/                 # Practical examples
+├── examples/                    # Practical examples
 │   ├── examples.py              # Basic usage examples
 │   ├── v8_examples.py           # Browser exploitation
 │   └── *.js                     # Real CTF exploits
-├── 📁 docs/                     # Comprehensive documentation
+├── docs/                        # Documentation
 │   ├── INSTALLATION.md          # Setup guide
 │   ├── API.md                   # API reference
-│   └── TECHNIQUES.md            # MindCrafters techniques
-└── 📁 legacy/                   # Previous versions and archives
+│   └── TECHNIQUES.md            # Advanced techniques
+
 ```
 
 ---
@@ -118,10 +119,10 @@ PwnCtf/
 
 ---
 
-## MindCrafters Techniques
+## Advanced Exploitation Techniques
 
 ### UTF-8 Byte Bypass
-Exploits the difference between character counting and byte counting in Python firewalls.
+Exploits the difference between character counting and byte counting in input validation.
 
 ```python
 # UTF-8 character that takes 3 bytes but counts as 1 character
@@ -188,8 +189,8 @@ analyzer.generate_final_report()
 ```python
 solver = AdvancedPWNSolver(gemini_api_key="your_key")
 solver.analyze_binary_comprehensive("./binary")
-challenge_type = solver.detect_mindcrafters_challenge_type()
-solver.apply_mindcrafters_technique(challenge_type)
+challenge_type = solver.detect_challenge_type()
+solver.apply_advanced_technique(challenge_type)
 ```
 
 ---
@@ -231,7 +232,7 @@ from advanced_pwn_solver import AdvancedPWNSolver
 solver = AdvancedPWNSolver()
 
 # Apply specific technique
-if solver.detect_mindcrafters_challenge_type() == "safe_gets_utf8":
+if solver.detect_challenge_type() == "safe_gets_utf8":
     payload = solver.utf8_byte_bypass_technique()
     # Use payload for exploitation
 ```
@@ -250,8 +251,8 @@ We welcome contributions from the CTF community:
 
 ### Adding New Techniques
 1. Implement in `advanced_pwn_solver.py`
-2. Add detection patterns in `detect_mindcrafters_challenge_type()`
-3. Update technique mapping in `apply_mindcrafters_technique()`
+2. Add detection patterns in `detect_challenge_type()`
+3. Update technique mapping in `apply_advanced_technique()`
 4. Add tests and documentation
 
 ---
@@ -264,10 +265,10 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## Acknowledgments
 
-- **MindCrafters CTF Team** - For excellent writeups and techniques
 - **pwntools** - Essential PWN toolkit
 - **Google Gemini** - AI analysis capabilities
 - **CTF Community** - Continuous inspiration and challenges
+- **Security Researchers** - Advanced exploitation techniques
 
 ---
 

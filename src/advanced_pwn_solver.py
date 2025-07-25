@@ -26,8 +26,8 @@ class AdvancedPWNSolver:
         self.gadgets = {}
         self.exploits_generated = []
         
-        # Advanced MindCrafters techniques
-        self.mindcrafters_techniques = [
+        # Advanced exploitation techniques
+        self.advanced_techniques = [
             "utf8_byte_bypass",
             "format_string_leak_exploit", 
             "custom_shellcode_injection",

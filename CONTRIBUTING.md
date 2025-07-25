@@ -32,8 +32,8 @@ Add techniques from CTF writeups or your own research.
 
 **Process:**
 1. Implement technique in `advanced_pwn_solver.py`
-2. Add detection patterns in `detect_mindcrafters_challenge_type()`
-3. Update technique mapping in `apply_mindcrafters_technique()`
+2. Add detection patterns in `detect_challenge_type()`
+3. Update technique mapping in `apply_advanced_technique()`
 4. Add tests and documentation
 5. Create example challenge
 

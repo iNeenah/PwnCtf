@@ -47,7 +47,7 @@ Examples:
     
     # Demo command
     demo_parser = subparsers.add_parser('demo', help='Run demonstration')
-    demo_parser.add_argument('--type', choices=['simple', 'mindcrafters', 'complete'], 
+    demo_parser.add_argument('--type', choices=['simple', 'advanced', 'complete'], 
                            default='simple', help='Demo type')
     
     # Install command
@@ -95,8 +95,8 @@ Examples:
             
             if args.type == 'simple':
                 os.system(f"python {demo_path}/demo_simple_pwn_ai.py")
-            elif args.type == 'mindcrafters':
-                os.system(f"python {demo_path}/demo_mindcrafters_simple.py")
+            elif args.type == 'advanced':
+                os.system(f"python {demo_path}/demo_advanced_techniques.py")
             elif args.type == 'complete':
                 os.system(f"python {demo_path}/demo_complete_pwn_ai.py")
                 

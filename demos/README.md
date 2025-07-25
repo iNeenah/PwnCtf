@@ -8,9 +8,9 @@ Interactive demonstrations of PWN AI Analyzer capabilities.
 - **`demo_simple_pwn_ai.py`** - Simple demo without external dependencies
 - **`demo_pwn_ai.py`** - Basic PWN AI functionality demo
 
-### MindCrafters Techniques
-- **`demo_mindcrafters_simple.py`** - MindCrafters techniques demonstration
-- **`demo_mindcrafters_techniques.py`** - Advanced technique examples
+### Advanced Techniques
+- **`demo_advanced_techniques.py`** - Advanced exploitation techniques
+- **`demo_technique_examples.py`** - Detailed technique examples
 
 ### Complete System
 - **`demo_complete_pwn_ai.py`** - Full system demonstration with all features
@@ -22,8 +22,8 @@ Interactive demonstrations of PWN AI Analyzer capabilities.
 # Simple demo (no dependencies)
 python pwn_ai.py demo --type simple
 
-# MindCrafters techniques
-python pwn_ai.py demo --type mindcrafters
+# Advanced techniques
+python pwn_ai.py demo --type advanced
 
 # Complete system demo
 python pwn_ai.py demo --type complete
@@ -36,7 +36,7 @@ cd demos
 
 # Run specific demo
 python demo_simple_pwn_ai.py
-python demo_mindcrafters_simple.py
+python demo_advanced_techniques.py
 ```
 
 ## Demo Features
@@ -51,12 +51,12 @@ python demo_mindcrafters_simple.py
 
 ### Requirements
 - **Simple Demo**: No external dependencies
-- **MindCrafters Demo**: Basic Python libraries
+- **Advanced Demo**: Basic Python libraries
 - **Complete Demo**: Full installation with AI integration
 
 ## Learning Objectives
 
 1. **Understand** how automated CTF analysis works
-2. **See** MindCrafters techniques in action
+2. **See** advanced techniques in action
 3. **Learn** about different challenge types
 4. **Explore** AI-enhanced analysis capabilities
