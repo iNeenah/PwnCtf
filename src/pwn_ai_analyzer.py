@@ -70,7 +70,7 @@ class PWNAIAnalyzer:
             
         try:
             genai.configure(api_key=self.gemini_api_key)
-            self.model = genai.GenerativeModel('gemini-pro')
+            self.model = genai.GenerativeModel('gemini-1.5-pro-latest')
             print("[+] Gemini AI configurado exitosamente")
         except Exception as e:
             print(f"[-] Error configurando Gemini: {e}")

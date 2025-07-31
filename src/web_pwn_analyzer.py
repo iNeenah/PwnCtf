@@ -17,7 +17,7 @@ from datetime import datetime
 import threading
 import uuid
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='../templates')
 app.secret_key = 'pwn_analyzer_secret_key_2024'
 app.config['MAX_CONTENT_LENGTH'] = 100 * 1024 * 1024  # 100MB max file size
 
@@ -634,4 +634,4 @@ if __name__ == '__main__':
     print("Accede a: http://localhost:5000")
     print("Dashboard: http://localhost:5000/dashboard")
     
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run(debug=True, host='0.0.0.0', port=5001)
