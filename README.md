@@ -20,6 +20,12 @@ A comprehensive system that combines traditional PWN techniques with artificial 
 - **Heap Feng Shui** - Controlled memory layout manipulation
 - **Advanced Race Conditions** - Precise timing attacks
 - **Custom Shellcode Generation** - Optimized payload creation
+- **SMM Exploitation** - System Management Mode LockBox and S3 resume hijacking
+- **mimalloc Exploitation** - Microsoft allocator freelist manipulation and musl atexit hijacking
+- **Advanced UAF Techniques** - Kernel UAF with pipe spray and JOP->ROP chains
+- **Kernel Exploitation** - IOCTL drivers, privilege escalation, KPTI bypass
+- **Advanced Heap Attacks** - Exit handler hijacking, arbitrary read/write primitives
+- **Writeup Pattern Analysis** - Automatic technique selection from real CTF writeups
 
 ### Core Capabilities
 - **Universal File Analysis** - Binaries, source code, web files, archives
@@ -92,7 +98,15 @@ PwnCtf/
 ├── docs/                        # Documentation
 │   ├── INSTALLATION.md          # Setup guide
 │   ├── API.md                   # API reference
-│   └── TECHNIQUES.md            # Advanced techniques
+│   ├── TECHNIQUES.md            # Advanced techniques
+│   └── WRITEUP_TECHNIQUES.md    # Writeup-based techniques
+├── src/                         # Core modules
+│   ├── advanced_pwn_solver.py   # Main solver with all techniques
+│   ├── smm_exploitation.py      # SMM exploitation techniques
+│   ├── mimalloc_exploitation.py # mimalloc allocator exploitation
+│   ├── advanced_uaf_techniques.py # Advanced UAF methods
+│   ├── kernel_exploitation.py   # Kernel exploitation techniques
+│   └── heap_exploitation.py     # Advanced heap techniques
 
 ```
 

@@ -14,6 +14,26 @@ import threading
 from pwn import *
 import google.generativeai as genai
 
+# Import new exploitation modules
+try:
+    from .kernel_exploitation import KernelExploitationTechniques
+    from .heap_exploitation import HeapExploitationTechniques
+    from .smm_exploitation import SMMExploitationTechniques
+    from .advanced_uaf_techniques import AdvancedUAFTechniques
+    from .mimalloc_exploitation import MimallocExploitationTechniques
+    ADVANCED_MODULES_AVAILABLE = True
+except ImportError:
+    try:
+        from kernel_exploitation import KernelExploitationTechniques
+        from heap_exploitation import HeapExploitationTechniques
+        from smm_exploitation import SMMExploitationTechniques
+        from advanced_uaf_techniques import AdvancedUAFTechniques
+        from mimalloc_exploitation import MimallocExploitationTechniques
+        ADVANCED_MODULES_AVAILABLE = True
+    except ImportError:
+        ADVANCED_MODULES_AVAILABLE = False
+        print("[-] Advanced exploitation modules not available")
+
 class AdvancedPWNSolver:
     def __init__(self, gemini_api_key=None):
         self.gemini_api_key = gemini_api_key
@@ -37,8 +57,28 @@ class AdvancedPWNSolver:
             "ret2dlresolve",
             "sigrop_exploitation",
             "advanced_race_conditions",
-            "python_char_vs_byte_bypass"
+            "python_char_vs_byte_bypass",
+            "kernel_uaf_exploitation",
+            "mimalloc_freelist_manipulation",
+            "exit_handler_hijacking",
+            "smm_lockbox_exploitation",
+            "ioctl_driver_exploitation"
         ]
+        
+        # Initialize advanced exploitation modules
+        if ADVANCED_MODULES_AVAILABLE:
+            self.kernel_exploiter = KernelExploitationTechniques()
+            self.heap_exploiter = HeapExploitationTechniques()
+            self.smm_exploiter = SMMExploitationTechniques()
+            self.uaf_exploiter = AdvancedUAFTechniques()
+            self.mimalloc_exploiter = MimallocExploitationTechniques()
+            print("[+] Advanced exploitation modules loaded")
+        else:
+            self.kernel_exploiter = None
+            self.heap_exploiter = None
+            self.smm_exploiter = None
+            self.uaf_exploiter = None
+            self.mimalloc_exploiter = None
         
         if gemini_api_key:
             self.setup_gemini()
@@ -860,13 +900,13 @@ def main():
         
         return exploiter.success, exploiter.result
 def main():
-    """Función principal mejorada con técnicas de MindCrafters"""
-    print("🚀 ADVANCED PWN SOLVER - Técnicas de MindCrafters")
+    """Enhanced main function with all advanced techniques"""
+    print("🚀 ADVANCED PWN SOLVER - All Advanced Techniques")
     print("="*50)
     
     if len(sys.argv) < 2:
-        print("Uso: python advanced_pwn_solver.py <binary> [gemini_api_key]")
-        print("\nEjemplos:")
+        print("Usage: python advanced_pwn_solver.py <binary> [gemini_api_key]")
+        print("\nExamples:")
         print("  python advanced_pwn_solver.py ./challenge")
         print("  python advanced_pwn_solver.py ./challenge AIzaSyC...")
         return
@@ -876,24 +916,267 @@ def main():
     
     solver = AdvancedPWNSolver(api_key)
     
-    print(f"[+] Analizando binario: {binary_path}")
-    print(f"[+] Técnicas disponibles: {len(solver.mindcrafters_techniques)}")
+    print(f"[+] Analyzing binary: {binary_path}")
+    print(f"[+] Available techniques: {len(solver.advanced_techniques)}")
     
-    # Análisis y explotación automática con técnicas de MindCrafters
-    if solver.analyze_binary_comprehensive(binary_path):
-        # Detectar tipo específico de desafío
-        challenge_type = solver.detect_mindcrafters_challenge_type()
+    # Comprehensive analysis with all advanced techniques
+    analysis_results = solver.comprehensive_analysis_with_all_techniques()
+    
+    if analysis_results["basic_analysis"]:
+        challenge_type = analysis_results["challenge_type"]
+        strategy = analysis_results["exploitation_strategy"]
         
-        # Aplicar técnica específica
-        result = solver.apply_mindcrafters_technique(challenge_type)
+        print(f"\n[+] Challenge type detected: {challenge_type}")
         
-        if result:
-            print("\n🎯 Explotación exitosa con técnicas de MindCrafters!")
+        if strategy:
+            print("\n🎯 Advanced exploitation successful!")
+            print(f"[+] Strategy applied: {type(strategy).__name__ if hasattr(strategy, '__name__') else 'Custom'}")
         else:
-            print("\n❌ Explotación falló, intentando técnicas generales...")
-            solver.auto_exploit()
+            print("\n❌ Advanced exploitation failed, trying fallback techniques...")
+            fallback_result = solver.auto_exploit()
+            if fallback_result:
+                print("[+] Fallback exploitation successful")
     
-    print("\n✅ Análisis completado!")
+    print("\n✅ Analysis completed with all advanced techniques!")
+    
+    def detect_advanced_challenge_type(self):
+        """
+        Enhanced challenge detection including all new advanced techniques
+        """
+        print("[+] Detecting advanced challenge type...")
+        
+        challenge_type = "unknown"
+        
+        # Check for SMM challenges
+        if self.smm_exploiter and self.smm_exploiter.detect_smm_challenge(self.binary_path):
+            challenge_type = "smm_exploitation"
+            print("[+] SMM exploitation challenge detected")
+            return challenge_type
+        
+        # Check for mimalloc challenges
+        if self.mimalloc_exploiter and self.mimalloc_exploiter.detect_mimalloc_challenge(self.binary_path):
+            challenge_type = "mimalloc_exploitation"
+            print("[+] mimalloc exploitation challenge detected")
+            return challenge_type
+        
+        # Check for advanced UAF challenges
+        if self.uaf_exploiter:
+            detected, patterns = self.uaf_exploiter.detect_uaf_vulnerability(self.binary_path)
+            if detected:
+                challenge_type = "advanced_uaf_exploitation"
+                print(f"[+] Advanced UAF challenge detected with patterns: {patterns}")
+                return challenge_type
+        
+        # Check for kernel challenges
+        if self.kernel_exploiter and self.kernel_exploiter.detect_kernel_challenge(self.binary_path):
+            challenge_type = "kernel_exploitation"
+            print("[+] Kernel exploitation challenge detected")
+            return challenge_type
+        
+        # Check for advanced heap challenges
+        if self.heap_exploiter and self.heap_exploiter.detect_heap_challenge(self.binary_path):
+            challenge_type = "advanced_heap_exploitation"
+            print("[+] Advanced heap exploitation challenge detected")
+            return challenge_type
+        
+        # Fall back to original detection
+        challenge_type = self.detect_mindcrafters_challenge_type()
+        
+        return challenge_type
+    
+    def apply_advanced_techniques(self, challenge_type):
+        """
+        Apply advanced exploitation techniques based on challenge type
+        """
+        print(f"[+] Applying advanced technique for: {challenge_type}")
+        
+        # New advanced techniques mapping
+        advanced_techniques_map = {
+            "smm_exploitation": self.apply_smm_exploitation,
+            "mimalloc_exploitation": self.apply_mimalloc_exploitation,
+            "advanced_uaf_exploitation": self.apply_advanced_uaf_exploitation,
+            "kernel_exploitation": self.apply_kernel_exploitation,
+            "advanced_heap_exploitation": self.apply_advanced_heap_exploitation
+        }
+        
+        # Try advanced techniques first
+        if challenge_type in advanced_techniques_map:
+            result = advanced_techniques_map[challenge_type]()
+            if result:
+                return result
+        
+        # Fall back to original techniques
+        return self.apply_mindcrafters_technique(challenge_type)
+    
+    def apply_smm_exploitation(self):
+        """Apply SMM exploitation techniques"""
+        if not self.smm_exploiter:
+            print("[-] SMM exploitation module not available")
+            return None
+        
+        print("[+] Applying SMM exploitation techniques...")
+        
+        # Analyze SMM vulnerabilities
+        vulnerabilities = self.smm_exploiter.analyze_smm_vulnerability(self.binary_path)
+        strategies = self.smm_exploiter.get_smm_exploitation_strategy(vulnerabilities)
+        
+        if not strategies:
+            print("[-] No SMM exploitation strategies found")
+            return None
+        
+        # Apply highest priority strategy
+        best_strategy = max(strategies, key=lambda x: {"high": 3, "medium": 2, "low": 1}[x["priority"]])
+        print(f"[+] Applying strategy: {best_strategy['technique']}")
+        
+        if best_strategy["method"] == "smm_lockbox_buffer_overflow":
+            return self.smm_exploiter.smm_lockbox_buffer_overflow()
+        elif best_strategy["method"] == "smm_s3_resume_hijack":
+            return self.smm_exploiter.smm_s3_resume_hijack()
+        elif best_strategy["method"] == "smm_communication_exploit":
+            return self.smm_exploiter.smm_communication_exploit()
+        
+        return None
+    
+    def apply_mimalloc_exploitation(self):
+        """Apply mimalloc exploitation techniques"""
+        if not self.mimalloc_exploiter:
+            print("[-] mimalloc exploitation module not available")
+            return None
+        
+        print("[+] Applying mimalloc exploitation techniques...")
+        
+        # Generate complete mimalloc exploit
+        exploit_code = self.mimalloc_exploiter.generate_complete_mimalloc_exploit()
+        
+        # Save exploit to file
+        exploit_path = "mimalloc_exploit.py"
+        with open(exploit_path, 'w') as f:
+            f.write(exploit_code)
+        
+        print(f"[+] mimalloc exploit saved to {exploit_path}")
+        return exploit_code
+    
+    def apply_advanced_uaf_exploitation(self):
+        """Apply advanced UAF exploitation techniques"""
+        if not self.uaf_exploiter:
+            print("[-] Advanced UAF exploitation module not available")
+            return None
+        
+        print("[+] Applying advanced UAF exploitation techniques...")
+        
+        # Analyze UAF exploitability
+        analysis = self.uaf_exploiter.analyze_uaf_exploitability(self.binary_path)
+        
+        if not analysis["exploitable"]:
+            print("[-] UAF not exploitable")
+            return None
+        
+        # Apply highest priority technique
+        if analysis["techniques"]:
+            best_technique = max(analysis["techniques"], key=lambda x: {"high": 3, "medium": 2, "low": 1}[x["priority"]])
+            print(f"[+] Applying technique: {best_technique['name']}")
+            
+            if best_technique["method"] == "kernel_uaf_with_pipe_spray":
+                return self.uaf_exploiter.kernel_uaf_with_pipe_spray()
+            elif best_technique["method"] == "ioctl_uaf_exploitation":
+                return self.uaf_exploiter.ioctl_uaf_exploitation()
+            elif best_technique["method"] == "jop_to_rop_chain_exploit":
+                return self.uaf_exploiter.jop_to_rop_chain_exploit()
+        
+        return None
+    
+    def apply_kernel_exploitation(self, kernel_type="auto"):
+        """Apply kernel exploitation techniques"""
+        if not self.kernel_exploiter:
+            print("[-] Kernel exploitation module not available")
+            return None
+        
+        print(f"[+] Applying kernel exploitation technique: {kernel_type}")
+        
+        if kernel_type == "auto":
+            # Auto-detect kernel exploitation type
+            try:
+                with open(self.binary_path, 'rb') as f:
+                    content = f.read()
+                
+                if b"ioctl" in content:
+                    return self.kernel_exploiter.ioctl_driver_exploitation(self.binary_path)
+                elif b"SMM" in content:
+                    return self.kernel_exploiter.smm_lockbox_exploitation()
+                else:
+                    return self.kernel_exploiter.kernel_uaf_with_pipes()
+            except Exception as e:
+                print(f"[-] Error in auto-detection: {e}")
+                return None
+        
+        # Apply specific technique
+        kernel_techniques = {
+            "uaf_pipes": self.kernel_exploiter.kernel_uaf_with_pipes,
+            "smm_lockbox": self.kernel_exploiter.smm_lockbox_exploitation,
+            "ioctl_driver": lambda: self.kernel_exploiter.ioctl_driver_exploitation(self.binary_path)
+        }
+        
+        if kernel_type in kernel_techniques:
+            return kernel_techniques[kernel_type]()
+        
+        return None
+    
+    def apply_advanced_heap_exploitation(self, heap_type="auto"):
+        """Apply advanced heap exploitation techniques"""
+        if not self.heap_exploiter:
+            print("[-] Heap exploitation module not available")
+            return None
+        
+        print(f"[+] Applying advanced heap exploitation: {heap_type}")
+        
+        if heap_type == "auto":
+            # Auto-detect heap exploitation type
+            try:
+                with open(self.binary_path, 'rb') as f:
+                    content = f.read()
+                
+                if b"mimalloc" in content or b"mi_" in content:
+                    return self.heap_exploiter.mimalloc_freelist_manipulation("localhost", 1337)
+                elif b"atexit" in content or b"exit" in content:
+                    return self.heap_exploiter.exit_handler_hijacking(0x7ffff7e50d70, 0x7ffff7f8d698)
+                else:
+                    return self.heap_exploiter.heap_feng_shui_advanced([0x20, 0x30, 0x40], {'free_pattern': [0, 2]})
+            except Exception as e:
+                print(f"[-] Error in auto-detection: {e}")
+                return None
+        
+        # Apply specific technique
+        heap_techniques = {
+            "mimalloc": lambda: self.heap_exploiter.mimalloc_freelist_manipulation("localhost", 1337),
+            "exit_handler": lambda: self.heap_exploiter.exit_handler_hijacking(0x7ffff7e50d70, 0x7ffff7f8d698),
+            "feng_shui": lambda: self.heap_exploiter.heap_feng_shui_advanced([0x20, 0x30, 0x40], {'free_pattern': [0, 2]}),
+            "arbitrary_rw": lambda: self.heap_exploiter.arbitrary_read_write_primitive(0x601000, write_data=b"payload")
+        }
+        
+        if heap_type in heap_techniques:
+            return heap_techniques[heap_type]()
+        
+        return None
+    
+    def comprehensive_analysis_with_all_techniques(self):
+        """
+        Comprehensive analysis incorporating all advanced techniques
+        """
+        print("[+] Performing comprehensive analysis with all advanced techniques...")
+        
+        analysis_results = {
+            "basic_analysis": self.analyze_binary_comprehensive(self.binary_path),
+            "challenge_type": self.detect_advanced_challenge_type(),
+            "exploitation_strategy": None,
+            "advanced_patterns": []
+        }
+        
+        # Generate exploitation strategy
+        challenge_type = analysis_results["challenge_type"]
+        strategy = self.apply_advanced_techniques(challenge_type)
+        analysis_results["exploitation_strategy"] = strategy
+        
+        return analysis_results
 
 if __name__ == "__main__":
     main()

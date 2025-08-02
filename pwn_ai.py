@@ -96,7 +96,7 @@ Examples:
             if args.type == 'simple':
                 os.system(f"python {demo_path}/demo_simple_pwn_ai.py")
             elif args.type == 'advanced':
-                os.system(f"python {demo_path}/demo_advanced_techniques.py")
+                os.system(f"python {demo_path}/demo_complete_advanced_techniques.py")
             elif args.type == 'complete':
                 os.system(f"python {demo_path}/demo_complete_pwn_ai.py")
                 
