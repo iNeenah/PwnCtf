@@ -205,6 +205,73 @@ def demo_integration_showcase():
     
     print("\n[+] Complete integration showcase completed successfully!")
 
+def demo_justctf2025_techniques():
+    """Demonstrate JustCTF2025 advanced techniques"""
+    print("\n" + "="*60)
+    print("JUSTCTF2025 ADVANCED TECHNIQUES")
+    print("="*60)
+    
+    print("\nTechniques from JustCTF2025 writeups:")
+    print("1. Shellcode Printer - Advanced Format String")
+    print("   - fprintf to /dev/null with blind %n writes")
+    print("   - Incremental shellcode injection (2 bytes per write)")
+    print("   - mmap RWX region exploitation")
+    print("   - Jump instruction for circular execution")
+    
+    print("\n2. Baby Heap - Modern Tcache Exploitation")
+    print("   - Tcache poisoning with glibc 2.39+ protections")
+    print("   - Fake chunk creation for unsorted bin")
+    print("   - main_arena leak via unsorted bin fd/bk pointers")
+    print("   - Stack overwrite via tcache poisoning")
+    print("   - __environ leak for stack address")
+    
+    print("\n3. Prospector - ret2linker Exploitation")
+    print("   - Linker address leak via score transformation")
+    print("   - PIE bypass using dynamic linker base")
+    print("   - Multi-stage ROP chain with linker gadgets")
+    print("   - read + execve syscall combination")
+    
+    # Simulate JustCTF2025 techniques
+    print("\n[+] Simulating JustCTF2025 techniques...")
+    
+    print("\n--- Shellcode Printer Technique ---")
+    print("[+] Detecting fprintf to /dev/null vulnerability")
+    print("[+] mmap RWX region found at rsp+8")
+    print("[+] Building incremental shellcode injection:")
+    print("    Chunk 1/15: %4919c%6$hn  (0x1337)")
+    print("    Chunk 2/15: %18516c%6$hn (0x4854)")
+    print("    ...")
+    print("    Chunk 15/15: %60928c%6$hn (0xedc0)")
+    print("[+] Adding jump back to start: %14674832c%6$n")
+    print("[+] Shellcode execution successful!")
+    
+    print("\n--- Baby Heap Technique ---")
+    print("[+] Detecting UAF with modern glibc protections")
+    print("[+] Tcache key leak: 0x5555555592a0")
+    print("[+] Heap base leak: 0x555555559000")
+    print("[+] Creating fake chunk with size 0x421")
+    print("[+] Filling tcache to force unsorted bin usage")
+    print("[+] Unsorted bin leak: 0x7ffff7dd5b20 (main_arena)")
+    print("[+] Libc base calculated: 0x7ffff7bd2000")
+    print("[+] __environ leak: 0x7fffffffe2c8")
+    print("[+] ROP chain written to stack via tcache poisoning")
+    print("[+] Shell execution successful!")
+    
+    print("\n--- Prospector Technique ---")
+    print("[+] Detecting stripped binary with score leak")
+    print("[+] Buffer overflow to set condition flag")
+    print("[+] Score leak: 123456789")
+    print("[+] Reversed address: 0x700000000000 | ((score >> 1) << 16)")
+    print("[+] Linker base: 0x7ffff7fc3000")
+    print("[+] ROP gadgets from linker:")
+    print("    pop rdi: 0x7ffff7fc6399")
+    print("    pop rsi: 0x7ffff7fc8700") 
+    print("    syscall: 0x7ffff7fce879")
+    print("[+] Multi-stage ROP: read('/bin/sh') + execve()")
+    print("[+] Shell execution successful!")
+    
+    print("\n[+] JustCTF2025 techniques demonstrated successfully!")
+
 def demo_ai_assisted_exploitation():
     """Demonstrate AI-assisted exploitation"""
     print("\n" + "="*60)
@@ -326,12 +393,13 @@ def main():
         print("1. SMM Exploitation Techniques")
         print("2. mimalloc Exploitation Techniques")
         print("3. Advanced UAF Techniques")
-        print("4. Complete Integration Showcase")
-        print("5. AI-Assisted Exploitation")
-        print("6. Usage Examples")
-        print("7. Exit")
+        print("4. JustCTF2025 Advanced Techniques")
+        print("5. Complete Integration Showcase")
+        print("6. AI-Assisted Exploitation")
+        print("7. Usage Examples")
+        print("8. Exit")
         
-        choice = input("\nSelect an option (1-7): ").strip()
+        choice = input("\nSelect an option (1-8): ").strip()
         
         if choice == "1":
             demo_smm_exploitation()
@@ -340,17 +408,20 @@ def main():
         elif choice == "3":
             demo_advanced_uaf_techniques()
         elif choice == "4":
-            demo_integration_showcase()
+            demo_justctf2025_techniques()
         elif choice == "5":
-            demo_ai_assisted_exploitation()
+            demo_integration_showcase()
         elif choice == "6":
-            show_usage_examples()
+            demo_ai_assisted_exploitation()
         elif choice == "7":
+            show_usage_examples()
+        elif choice == "8":
             print("\nComplete advanced techniques demonstrated successfully!")
             print("\nAll techniques are now integrated into the PWN AI Analyzer:")
             print("- SMM exploitation with LockBox and S3 resume hijacking")
             print("- mimalloc exploitation with freelist manipulation")
             print("- Advanced UAF with pipe spray and JOP->ROP chains")
+            print("- JustCTF2025 techniques: format string, tcache, ret2linker")
             print("- Kernel exploitation with IOCTL and privilege escalation")
             print("- Advanced heap techniques with feng shui and exit handlers")
             print("- AI-assisted technique selection and exploit generation")

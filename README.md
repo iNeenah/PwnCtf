@@ -25,6 +25,14 @@ A comprehensive system that combines traditional PWN techniques with artificial 
 - **Advanced UAF Techniques** - Kernel UAF with pipe spray and JOP->ROP chains
 - **Kernel Exploitation** - IOCTL drivers, privilege escalation, KPTI bypass
 - **Advanced Heap Attacks** - Exit handler hijacking, arbitrary read/write primitives
+- **JustCTF2025 Cutting-Edge Techniques**:
+  - **SMM LockBox Buffer Overflow** - Size inconsistency exploitation in SMM_LOCK_BOX_DATA
+  - **Kernel UAF with Pipe Spray** - Advanced UAF using pipe_buffer heap manipulation
+  - **S3 Resume State Hijacking** - Control SMM execution via SmmS3ResumeState manipulation
+  - **PTE Overwrite Memory Bypass** - Bypass memory restrictions via page table manipulation
+  - **Advanced Format String** - Blind writes, fprintf /dev/null, incremental shellcode
+  - **Modern Tcache** - glibc 2.39+ bypass, unsorted bin leaks, stack overwrite
+  - **ret2linker** - Dynamic linker exploitation, PIE bypass, multi-stage ROP
 - **Writeup Pattern Analysis** - Automatic technique selection from real CTF writeups
 
 ### Core Capabilities
@@ -90,6 +98,8 @@ PwnCtf/
 │   └── install_pwn_ai.py        # Automatic installer
 ├── demos/                       # Interactive demonstrations
 │   ├── demo_simple_pwn_ai.py    # Basic demo (no dependencies)
+│   ├── demo_complete_advanced_techniques.py # All advanced techniques
+│   ├── demo_justctf2025_techniques.py # JustCTF2025 cutting-edge methods
 │   └── demo_complete_pwn_ai.py  # Full system demo
 ├── examples/                    # Practical examples
 │   ├── examples.py              # Basic usage examples
@@ -105,6 +115,9 @@ PwnCtf/
 │   ├── smm_exploitation.py      # SMM exploitation techniques
 │   ├── mimalloc_exploitation.py # mimalloc allocator exploitation
 │   ├── advanced_uaf_techniques.py # Advanced UAF methods
+│   ├── format_string_advanced.py # Advanced format string techniques
+│   ├── tcache_advanced_techniques.py # Modern tcache exploitation
+│   ├── ret2linker_techniques.py # ret2linker exploitation
 │   ├── kernel_exploitation.py   # Kernel exploitation techniques
 │   └── heap_exploitation.py     # Advanced heap techniques
 

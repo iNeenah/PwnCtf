@@ -326,3 +326,203 @@ This integration allows the system to:
 - **Technique Refinement** - AI suggests improvements to detected techniques
 - **Payload Optimization** - AI helps optimize payloads for specific scenarios
 - **Educational Value** - AI explains the reasoning behind technique selection
+---
+
+
+## JustCTF 2025 Cutting-Edge Techniques
+
+**Source**: JustCTF 2025 Advanced Writeups  
+**Techniques**: State-of-the-art exploitation methods from real CTF challenges
+
+### SMM LockBox Buffer Overflow
+
+**Vulnerability**: Size inconsistency between Buffer and SmramBuffer in SMM_LOCK_BOX_DATA structure
+
+#### Technical Details
+```c
+// The vulnerability exists in the SMM LockBox update mechanism
+// When updating with large offset, SmramBuffer gets reallocated but Buffer doesn't
+typedef struct {
+    PHYSICAL_ADDRESS Buffer;      // Original buffer (not resized)
+    PHYSICAL_ADDRESS SmramBuffer; // SMRAM buffer (gets resized)
+    UINT64 Length;               // Updated to new size
+} SMM_LOCK_BOX_DATA;
+
+// During restore_all_in_place:
+CopyMem((VOID *)(UINTN)LockBox->Buffer, 
+        (VOID *)(UINTN)LockBox->SmramBuffer, 
+        (UINTN)LockBox->Length);  // Buffer overflow!
+```
+
+#### Exploitation Steps
+1. Create LockBox with small buffer outside SMRAM (passes validation)
+2. Set attributes to RESTORE_IN_S3_ONLY
+3. Update with large offset to trigger SmramBuffer reallocation
+4. Change attributes to RESTORE_IN_PLACE
+5. Trigger buffer overflow with restore_all_in_place
+6. Overwrite SmmS3ResumeState structure
+7. Control SMM execution flow
+
+#### Impact
+- SMM code execution
+- S3 resume hijacking
+- Firmware-level persistence
+- Hypervisor escape potential
+
+### Kernel UAF with Pipe Spray
+
+**Technique**: Advanced Use-After-Free exploitation using pipe_buffer structures for reliable heap layout
+
+#### Technical Details
+```c
+// Use pipe_buffer structures to control kernel heap layout
+struct pipe_buffer {
+    struct page *page;
+    unsigned int offset, len;
+    const struct pipe_buf_operations *ops;  // Function pointer target
+    unsigned int flags;
+    unsigned long private;
+};
+
+// JOP->ROP transition via controlled function pointer
+// PUSH_RSI_JMP_RSI_44 gadget allows RSI control and jump
+```
+
+#### Exploitation Steps
+1. Allocate and free kernel object (create UAF condition)
+2. Spray pipe_buffer structures to control heap layout
+3. Read freed memory to leak kernel addresses
+4. Build JOP->ROP chain for privilege escalation
+5. Write ROP chain to freed memory via UAF
+6. Trigger ROP execution via pipe closure
+
+#### Key Techniques
+- **Pipe Spray**: Use 1000+ pipes for reliable heap feng shui
+- **JOP Transition**: PUSH_RSI_JMP_RSI_44 gadget for stack pivot
+- **KPTI Bypass**: Clean return to userspace via SWAPGS/IRETQ
+- **Privilege Escalation**: commit_creds(init_cred) for root
+
+### S3 Resume State Hijacking
+
+**Target**: SmmS3ResumeState structure manipulation for SMM execution control
+
+#### Structure Layout
+```c
+typedef struct {
+  UINT64                Signature;
+  EFI_PHYSICAL_ADDRESS  SmmS3ResumeEntryPoint;  // <- Hijack target
+  EFI_PHYSICAL_ADDRESS  SmmS3StackBase;         // <- Control stack
+  UINT64                SmmS3StackSize;
+  UINT64                SmmS3Cr0;
+  UINT64                SmmS3Cr3;
+  UINT64                SmmS3Cr4;
+  UINT16                ReturnCs;
+  EFI_PHYSICAL_ADDRESS  ReturnEntryPoint;
+  EFI_PHYSICAL_ADDRESS  ReturnContext1;
+  EFI_PHYSICAL_ADDRESS  ReturnContext2;
+  EFI_PHYSICAL_ADDRESS  ReturnStackPointer;
+  EFI_PHYSICAL_ADDRESS  Smst;
+} SMM_S3_RESUME_STATE;
+```
+
+#### Exploitation
+- Overwrite SmmS3ResumeEntryPoint to point to shellcode
+- Control stack via SmmS3StackBase manipulation
+- Execute during S3 resume cycle
+- Maintain persistence across sleep/wake cycles
+
+### PTE Overwrite Memory Bypass
+
+**Technique**: Page Table Entry manipulation to bypass memory access restrictions
+
+#### Calculation
+```c
+// PTE address calculation
+PTE_addr = CR3_base + ((target_addr >> 12) * 8)
+
+// Example for 0x44440000:
+// CR3_base = 0xff83000
+// PTE_addr = 0xff95200
+// PTE_value = 0x8000000044440067 (Present + Writable + User)
+```
+
+#### Shellcode
+```asm
+mov rax, 0x8000000044440067  ; PTE value with desired permissions
+mov qword ptr [0xff95200], rax  ; Write to calculated PTE address
+```
+
+#### Impact
+- Bypass SMEP/SMAP protections
+- Enable shellcode execution in restricted memory
+- Persistent memory access modification
+
+### Advanced Integration
+
+#### Combined Exploitation Approach
+1. **SMM Entry**: Use LockBox overflow to gain SMM execution
+2. **Memory Bypass**: Modify page tables to bypass restrictions
+3. **Handler Installation**: Install persistent hooks in SMM handlers
+4. **Kernel Escalation**: Use UAF techniques for kernel privileges
+5. **Persistence**: Maintain access across S3 resume cycles
+
+#### Real-World Applications
+- UEFI/BIOS exploitation
+- Hypervisor escape techniques
+- Firmware-level rootkits
+- Advanced persistent threats (APTs)
+- Security research and penetration testing
+
+### Implementation Features
+
+#### Automatic Detection
+```python
+def analyze_justctf2025_challenge(self, binary_path):
+    # SMM indicators
+    smm_indicators = [b"SMM", b"LockBox", b"EFI", b"UEFI", 
+                     b"S3Resume", b"RESTORE_ALL_IN_PLACE"]
+    
+    # UAF indicators  
+    uaf_indicators = [b"pipe", b"ioctl", b"commit_creds", 
+                     b"PUSH_RSI_JMP_RSI", b"POP_RSP_RET"]
+    
+    # Analyze and score techniques
+    return analysis_results
+```
+
+#### Complete Exploit Generation
+- **SMM Kernel Module**: Full Linux kernel module for SMM exploitation
+- **UAF Exploit**: Complete C exploit with pipe spray and ROP
+- **Shellcode Generation**: Automated SMM shellcode creation
+- **PTE Calculation**: Dynamic page table entry computation
+
+#### Advanced Features
+- **Multi-technique Integration**: Combine multiple exploitation methods
+- **Automatic Adaptation**: Adjust techniques based on target analysis
+- **Reliability Enhancement**: Multiple fallback strategies
+- **Stealth Capabilities**: Minimize detection footprint
+
+---
+
+## Technique Selection Algorithm
+
+The PWN AI Analyzer uses a sophisticated algorithm to select the most appropriate technique:
+
+1. **JustCTF 2025 Detection** (Highest Priority)
+   - SMM LockBox patterns → SMM buffer overflow
+   - Kernel UAF patterns → Pipe spray exploitation
+
+2. **Advanced Technique Detection**
+   - ret2linker patterns → Linker gadget exploitation
+   - Tcache patterns → Advanced heap manipulation
+   - Format string patterns → Multi-stage exploitation
+
+3. **Standard Technique Detection**
+   - Basic patterns → Traditional exploitation methods
+
+4. **Fallback Strategies**
+   - Multiple technique combination
+   - AI-assisted analysis
+   - Manual technique selection
+
+This ensures the most cutting-edge and effective techniques are applied to each challenge.

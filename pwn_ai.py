@@ -47,8 +47,8 @@ Examples:
     
     # Demo command
     demo_parser = subparsers.add_parser('demo', help='Run demonstration')
-    demo_parser.add_argument('--type', choices=['simple', 'advanced', 'complete'], 
-                           default='simple', help='Demo type')
+    demo_parser.add_argument('--type', choices=['simple', 'advanced', 'justctf2025', 'complete'], 
+                           default='simple', help='Demo type (simple=basic, advanced=all techniques, justctf2025=cutting-edge, complete=full system)')
     
     # Install command
     install_parser = subparsers.add_parser('install', help='Install dependencies')
@@ -97,6 +97,8 @@ Examples:
                 os.system(f"python {demo_path}/demo_simple_pwn_ai.py")
             elif args.type == 'advanced':
                 os.system(f"python {demo_path}/demo_complete_advanced_techniques.py")
+            elif args.type == 'justctf2025':
+                os.system(f"python {demo_path}/demo_justctf2025_techniques.py")
             elif args.type == 'complete':
                 os.system(f"python {demo_path}/demo_complete_pwn_ai.py")
                 

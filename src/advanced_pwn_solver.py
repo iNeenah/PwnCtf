@@ -21,6 +21,10 @@ try:
     from .smm_exploitation import SMMExploitationTechniques
     from .advanced_uaf_techniques import AdvancedUAFTechniques
     from .mimalloc_exploitation import MimallocExploitationTechniques
+    from .format_string_advanced import AdvancedFormatStringTechniques
+    from .tcache_advanced_techniques import AdvancedTcacheTechniques
+    from .ret2linker_techniques import Ret2LinkerTechniques
+    from .justctf2025_techniques import JustCTF2025Techniques
     ADVANCED_MODULES_AVAILABLE = True
 except ImportError:
     try:
@@ -29,6 +33,10 @@ except ImportError:
         from smm_exploitation import SMMExploitationTechniques
         from advanced_uaf_techniques import AdvancedUAFTechniques
         from mimalloc_exploitation import MimallocExploitationTechniques
+        from format_string_advanced import AdvancedFormatStringTechniques
+        from tcache_advanced_techniques import AdvancedTcacheTechniques
+        from ret2linker_techniques import Ret2LinkerTechniques
+        from justctf2025_techniques import JustCTF2025Techniques
         ADVANCED_MODULES_AVAILABLE = True
     except ImportError:
         ADVANCED_MODULES_AVAILABLE = False
@@ -62,7 +70,16 @@ class AdvancedPWNSolver:
             "mimalloc_freelist_manipulation",
             "exit_handler_hijacking",
             "smm_lockbox_exploitation",
-            "ioctl_driver_exploitation"
+            "ioctl_driver_exploitation",
+            "advanced_format_string_blind",
+            "incremental_shellcode_injection",
+            "fprintf_dev_null_exploitation",
+            "modern_tcache_poisoning",
+            "unsorted_bin_libc_leak",
+            "tcache_to_stack_overwrite",
+            "ret2linker_exploitation",
+            "linker_leak_extraction",
+            "multi_stage_rop_chains"
         ]
         
         # Initialize advanced exploitation modules
@@ -72,13 +89,21 @@ class AdvancedPWNSolver:
             self.smm_exploiter = SMMExploitationTechniques()
             self.uaf_exploiter = AdvancedUAFTechniques()
             self.mimalloc_exploiter = MimallocExploitationTechniques()
-            print("[+] Advanced exploitation modules loaded")
+            self.format_exploiter = AdvancedFormatStringTechniques()
+            self.tcache_exploiter = AdvancedTcacheTechniques()
+            self.ret2linker_exploiter = Ret2LinkerTechniques()
+            self.justctf2025_exploiter = JustCTF2025Techniques()
+            print("[+] All advanced exploitation modules loaded")
+            print("[+] JustCTF 2025 cutting-edge techniques available")
         else:
             self.kernel_exploiter = None
             self.heap_exploiter = None
             self.smm_exploiter = None
             self.uaf_exploiter = None
             self.mimalloc_exploiter = None
+            self.format_exploiter = None
+            self.tcache_exploiter = None
+            self.ret2linker_exploiter = None
         
         if gemini_api_key:
             self.setup_gemini()
@@ -947,6 +972,37 @@ def main():
         
         challenge_type = "unknown"
         
+        # Check for ret2linker challenges (JustCTF2025 Prospector style)
+        if self.ret2linker_exploiter and self.ret2linker_exploiter.detect_ret2linker_challenge(self.binary_path):
+            challenge_type = "ret2linker_exploitation"
+            print("[+] ret2linker exploitation challenge detected")
+            return challenge_type
+        
+        # Check for advanced format string challenges (JustCTF2025 Shellcode Printer style)
+        if self.format_exploiter and self.format_exploiter.detect_advanced_format_string(self.binary_path):
+            challenge_type = "advanced_format_string"
+            print("[+] Advanced format string challenge detected")
+            return challenge_type
+        
+        # Check for advanced tcache challenges (JustCTF2025 Baby Heap style)
+        if self.tcache_exploiter and self.tcache_exploiter.detect_tcache_challenge(self.binary_path):
+            challenge_type = "advanced_tcache_exploitation"
+            print("[+] Advanced tcache exploitation challenge detected")
+            return challenge_type
+        
+        # Check for JustCTF 2025 advanced techniques first (highest priority)
+        if hasattr(self, 'justctf2025_exploiter') and self.justctf2025_exploiter:
+            justctf_analysis = self.justctf2025_exploiter.analyze_justctf2025_challenge(self.binary_path)
+            if justctf_analysis["detected"]:
+                if "SMM LockBox Exploitation" in justctf_analysis["techniques"]:
+                    challenge_type = "justctf2025_smm_lockbox"
+                    print("[+] JustCTF 2025 SMM LockBox exploitation challenge detected")
+                    return challenge_type
+                elif "Kernel UAF with Pipe Spray" in justctf_analysis["techniques"]:
+                    challenge_type = "justctf2025_kernel_uaf"
+                    print("[+] JustCTF 2025 Kernel UAF with pipe spray challenge detected")
+                    return challenge_type
+        
         # Check for SMM challenges
         if self.smm_exploiter and self.smm_exploiter.detect_smm_challenge(self.binary_path):
             challenge_type = "smm_exploitation"
@@ -992,11 +1048,16 @@ def main():
         
         # New advanced techniques mapping
         advanced_techniques_map = {
+            "ret2linker_exploitation": self.apply_ret2linker_exploitation,
+            "advanced_format_string": self.apply_advanced_format_string,
+            "advanced_tcache_exploitation": self.apply_advanced_tcache_exploitation,
             "smm_exploitation": self.apply_smm_exploitation,
             "mimalloc_exploitation": self.apply_mimalloc_exploitation,
             "advanced_uaf_exploitation": self.apply_advanced_uaf_exploitation,
             "kernel_exploitation": self.apply_kernel_exploitation,
-            "advanced_heap_exploitation": self.apply_advanced_heap_exploitation
+            "advanced_heap_exploitation": self.apply_advanced_heap_exploitation,
+            "justctf2025_smm_lockbox": self.apply_justctf2025_smm_lockbox,
+            "justctf2025_kernel_uaf": self.apply_justctf2025_kernel_uaf
         }
         
         # Try advanced techniques first
@@ -1157,6 +1218,165 @@ def main():
             return heap_techniques[heap_type]()
         
         return None
+    
+    def apply_ret2linker_exploitation(self):
+        """Apply ret2linker exploitation techniques"""
+        if not self.ret2linker_exploiter:
+            print("[-] ret2linker exploitation module not available")
+            return None
+        
+        print("[+] Applying ret2linker exploitation techniques...")
+        
+        # Generate complete ret2linker exploit
+        exploit_code = self.ret2linker_exploiter.generate_ret2linker_exploit(self.binary_path)
+        
+        # Save exploit to file
+        exploit_path = "ret2linker_exploit.py"
+        with open(exploit_path, 'w') as f:
+            f.write(exploit_code)
+        
+        print(f"[+] ret2linker exploit saved to {exploit_path}")
+        return exploit_code
+    
+    def apply_advanced_format_string(self):
+        """Apply advanced format string exploitation techniques"""
+        if not self.format_exploiter:
+            print("[-] Advanced format string exploitation module not available")
+            return None
+        
+        print("[+] Applying advanced format string exploitation techniques...")
+        
+        # Analyze format string vulnerabilities
+        vulnerabilities = self.format_exploiter.analyze_format_string_vulnerability(self.binary_path)
+        strategies = self.format_exploiter.get_format_string_strategy(vulnerabilities)
+        
+        if not strategies:
+            print("[-] No format string exploitation strategies found")
+            return None
+        
+        # Apply highest priority strategy
+        best_strategy = max(strategies, key=lambda x: {"high": 3, "medium": 2, "low": 1}[x["priority"]])
+        print(f"[+] Applying strategy: {best_strategy['technique']}")
+        
+        if best_strategy["method"] == "mmap_rwx_format_exploit":
+            return self.format_exploiter.mmap_rwx_format_exploit()
+        elif best_strategy["method"] == "incremental_shellcode_injection":
+            shellcode = self.format_exploiter.generate_execve_shellcode()
+            return self.format_exploiter.incremental_shellcode_injection(shellcode)
+        elif best_strategy["method"] == "blind_format_string_write":
+            return self.format_exploiter.blind_format_string_write(0x7fffffffe000, 0x4141)
+        
+        # Generate complete exploit as fallback
+        complete_exploit = self.format_exploiter.generate_complete_format_exploit(self.binary_path)
+        
+        # Save exploit to file
+        exploit_path = "format_string_exploit.py"
+        with open(exploit_path, 'w') as f:
+            f.write(complete_exploit)
+        
+        print(f"[+] Format string exploit saved to {exploit_path}")
+        return complete_exploit
+    
+    def apply_advanced_tcache_exploitation(self):
+        """Apply advanced tcache exploitation techniques"""
+        if not self.tcache_exploiter:
+            print("[-] Advanced tcache exploitation module not available")
+            return None
+        
+        print("[+] Applying advanced tcache exploitation techniques...")
+        
+        # Generate complete tcache exploit
+        exploit_code = self.tcache_exploiter.generate_complete_tcache_exploit(self.binary_path)
+        
+        # Save exploit to file
+        exploit_path = "tcache_exploit.py"
+        with open(exploit_path, 'w') as f:
+            f.write(exploit_code)
+        
+        print(f"[+] Advanced tcache exploit saved to {exploit_path}")
+        return exploit_code
+    
+    def apply_justctf2025_smm_lockbox(self):
+        """Apply JustCTF 2025 SMM LockBox exploitation techniques"""
+        if not hasattr(self, 'justctf2025_exploiter') or not self.justctf2025_exploiter:
+            print("[-] JustCTF 2025 exploitation module not available")
+            return None
+        
+        print("[+] Applying JustCTF 2025 SMM LockBox exploitation techniques...")
+        print("[+] Using cutting-edge SMM buffer overflow technique")
+        
+        # Generate SMM LockBox exploit
+        exploit_info = self.justctf2025_exploiter.smm_lockbox_buffer_overflow_exploit()
+        
+        print(f"[+] Technique: {exploit_info['technique']}")
+        print(f"[+] Vulnerability: {exploit_info['vulnerability']}")
+        print(f"[+] Impact: {exploit_info['impact']}")
+        
+        # Generate complete SMM kernel module
+        smm_module_code = self.justctf2025_exploiter.generate_complete_smm_exploit()
+        
+        # Save SMM exploit module
+        module_path = "smm_lockbox_exploit.c"
+        with open(module_path, 'w') as f:
+            f.write(smm_module_code)
+        
+        print(f"[+] SMM LockBox exploit module saved to {module_path}")
+        print("[+] Exploitation steps:")
+        for step in exploit_info['steps']:
+            print(f"    {step}")
+        
+        return {
+            "exploit_info": exploit_info,
+            "module_code": smm_module_code,
+            "module_path": module_path,
+            "technique": "JustCTF 2025 SMM LockBox Buffer Overflow"
+        }
+    
+    def apply_justctf2025_kernel_uaf(self):
+        """Apply JustCTF 2025 Kernel UAF with pipe spray techniques"""
+        if not hasattr(self, 'justctf2025_exploiter') or not self.justctf2025_exploiter:
+            print("[-] JustCTF 2025 exploitation module not available")
+            return None
+        
+        print("[+] Applying JustCTF 2025 Kernel UAF with pipe spray techniques...")
+        print("[+] Using advanced pipe buffer heap manipulation")
+        
+        # Generate kernel UAF exploit
+        exploit_info = self.justctf2025_exploiter.kernel_uaf_pipe_spray_exploit()
+        
+        print(f"[+] Technique: {exploit_info['technique']}")
+        print(f"[+] Vulnerability: {exploit_info['vulnerability']}")
+        print(f"[+] Impact: {exploit_info['impact']}")
+        
+        # Generate complete UAF exploit
+        uaf_exploit_code = self.justctf2025_exploiter.generate_complete_uaf_exploit()
+        
+        # Save UAF exploit
+        exploit_path = "kernel_uaf_pipe_spray_exploit.c"
+        with open(exploit_path, 'w') as f:
+            f.write(uaf_exploit_code)
+        
+        print(f"[+] Kernel UAF exploit saved to {exploit_path}")
+        print("[+] Exploitation steps:")
+        for step in exploit_info['steps']:
+            print(f"    {step}")
+        
+        # Also generate additional techniques
+        s3_hijack = self.justctf2025_exploiter.s3_resume_state_hijacking()
+        pte_bypass = self.justctf2025_exploiter.pte_overwrite_memory_bypass()
+        
+        print(f"\n[+] Additional techniques available:")
+        print(f"    - {s3_hijack['technique']}")
+        print(f"    - {pte_bypass['technique']}")
+        
+        return {
+            "exploit_info": exploit_info,
+            "exploit_code": uaf_exploit_code,
+            "exploit_path": exploit_path,
+            "s3_hijack": s3_hijack,
+            "pte_bypass": pte_bypass,
+            "technique": "JustCTF 2025 Kernel UAF with Pipe Spray"
+        }
     
     def comprehensive_analysis_with_all_techniques(self):
         """
