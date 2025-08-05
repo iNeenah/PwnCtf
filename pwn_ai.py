@@ -98,7 +98,11 @@ Examples:
             elif args.type == 'advanced':
                 os.system(f"python {demo_path}/demo_complete_advanced_techniques.py")
             elif args.type == 'justctf2025':
-                os.system(f"python {demo_path}/demo_justctf2025_techniques.py")
+                # Use simple version for Windows compatibility
+                if os.name == 'nt':  # Windows
+                    os.system(f"python {demo_path}/demo_justctf2025_simple.py")
+                else:
+                    os.system(f"python {demo_path}/demo_justctf2025_techniques.py")
             elif args.type == 'complete':
                 os.system(f"python {demo_path}/demo_complete_pwn_ai.py")
                 
