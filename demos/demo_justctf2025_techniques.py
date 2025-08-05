@@ -16,7 +16,7 @@ sys.path.insert(0, str(src_path))
 def demo_justctf2025_techniques():
     """Demonstrate JustCTF 2025 advanced exploitation techniques"""
     
-    print("🔥 JustCTF 2025 Advanced Exploitation Techniques Demo")
+    print("JustCTF 2025 Advanced Exploitation Techniques Demo")
     print("=" * 70)
     print("Showcasing cutting-edge techniques from real CTF writeups")
     print()
